@@ -39,8 +39,8 @@ body {
     position: absolute;
     top: -50%;
     left: -50%;
-    width: 200%;
-    height: 200%;
+    width: 20%;
+    height: 20%;
     background: conic-gradient(#5a2d9a, #4a258a, #3a1e7a, #5a2d9a);
     animation: rotate 4s linear infinite;
     z-index: -1;
@@ -149,9 +149,9 @@ p {
 #chat-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    width: 100%;
-    max-width: 800px;
+    height: 90%;
+    width: 90%;
+    max-width: 700px;
     background: #1e1e1e;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
