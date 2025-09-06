@@ -3,12 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ryyn AI Chat</title>
+    <title>Ryyn AI</title>
     <link rel="stylesheet" href="ry.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="chat-container">
+
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <h1>Login ke Ryyn AI</h1>
+            <div class="logo-name">
+                <i class="fas fa-globe logo-icon"></i>
+                <span class="ryyn-name">Ryyn AI</span>
+            </div>
+            <p>Masukkan token untuk memilih mode:</p>
+            <div class="token-list">
+                <p>Mode JavaScript: <code>ACTIVE SYSTEM ✅</code></p>
+                <p>Mode Bucin: <code>ACTIVE SYSTEM ✅</code></p>
+                <p>Mode Betmut: <code>ACTIVE SYSTEM ✅</code></p>
+                <p>Mode MTK: <code>ACTIVE SYSTEM ✅</code></p>
+            </div>
+            <div class="input-group">
+                <input type="password" id="tokenInput" placeholder="Masukkan token di sini...">
+                <button id="loginButton">Masuk</button>
+            </div>
+            <p id="error-message" class="error-message"></p>
+        </div>
+    </div>
+
+    <div class="chat-container" id="chatPage" style="display: none;">
         <div class="chat-header">
             <div class="logo-name">
                 <i class="fas fa-microchip logo-icon"></i>
@@ -31,6 +54,7 @@
             <button id="sendButton" class="send-button"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
