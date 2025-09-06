@@ -5,56 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ryyn AI</title>
     <link rel="stylesheet" href="ry.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="login-container" id="loginPage">
+    <div id="login-container">
         <div class="login-box">
-            <h1>Login ke Ryyn AI</h1>
-            <div class="logo-name">
-                <i class="fas fa-globe logo-icon"></i>
-                <span class="ryyn-name">Ryyn AI</span>
+            <div class="logo-box">
+                <img src="https://files.catbox.moe/ebblto.png" alt="Ryyn AI Logo">
+                <h2>Ryyn AI</h2>
             </div>
-            <p>Masukkan token untuk memilih mode:</p>
-            <div class="token-list">
-                <p>Mode JavaScript: <code>ACTIVE SYSTEM ✅</code></p>
-                <p>Mode Bucin: <code>ACTIVE SYSTEM ✅</code></p>
-                <p>Mode Betmut: <code>ACTIVE SYSTEM ✅</code></p>
-                <p>Mode MTK: <code>ACTIVE SYSTEM ✅</code></p>
-            </div>
-            <div class="input-group">
-                <input type="password" id="tokenInput" placeholder="Masukkan token di sini...">
-                <button id="loginButton">Masuk</button>
-            </div>
-            <p id="error-message" class="error-message"></p>
+            <h1>Login</h1>
+            <p>Masukkan token untuk memilih mode</p>
+            <input type="text" id="token-input" placeholder="Masukkan Token">
+            <button id="login-btn">Masuk</button>
+            <div id="login-error" class="error-message"></div>
         </div>
     </div>
 
-    <div class="chat-container" id="chatPage" style="display: none;">
-        <div class="chat-header">
-            <div class="logo-name">
-                <i class="fas fa-microchip logo-icon"></i>
-                <span class="ryyn-name">Ryyn AI</span>
+    <div id="chat-container" class="hidden">
+        <header class="chat-header">
+            <div class="header-logo-name">
+                <img src="https://files.catbox.moe/odd629.png" alt="Ryyn AI Logo">
+                <h1>Ryyn AI</h1>
+                <span id="mode-display" class="mode-badge"></span>
             </div>
-            <span id="currentMode" class="current-mode"></span>
-            <button id="logoutButton" class="logout-button">Logout</button>
-        </div>
-        <div class="chat-box" id="chatBox">
-            </div>
-        <div class="image-preview-container" id="imagePreviewContainer">
-            <img id="imagePreview" src="#" alt="Image Preview">
-            <textarea id="imageDescription" placeholder="Jelaskan gambar ini..." rows="2"></textarea>
-            <i class="fas fa-times close-preview" id="closePreview"></i>
-        </div>
-        <div class="input-area">
-            <button id="uploadImageButton" class="upload-button"><i class="fas fa-image"></i></button>
-            <input type="file" id="imageInput" accept="image/*" hidden>
-            <input type="text" id="userInput" placeholder="Tulis pesan...">
-            <button id="sendButton" class="send-button"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
+            <button id="logout-btn">Keluar</button>
+        </header>
 
+        <main class="chat-box" id="chat-box">
+            <div class="message system-message">
+                <div class="message-content">Halo! Selamat datang di Ryyn AI. Silakan tanyakan apa saja.</div>
+            </div>
+        </main>
+
+        <footer class="chat-footer">
+            <div class="upload-preview-container" id="upload-preview-container" style="display: none;">
+                <img id="image-preview" src="" alt="Gambar pratinjau">
+                <textarea id="image-caption" placeholder="Jelaskan gambar ini..."></textarea>
+                <div class="close-preview" id="close-preview">×</div>
+            </div>
+            <div class="input-area">
+                <label for="image-upload" class="upload-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15.5V11h-3l4-4 4 4h-3v6.5h-2z"/>
+                    </svg>
+                </label>
+                <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                <input type="text" id="user-input" placeholder="Ketik pesan Anda...">
+                <button id="send-btn">KIRIM</button>
+            </div>
+        </footer>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
