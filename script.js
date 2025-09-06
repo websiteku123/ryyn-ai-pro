@@ -37,7 +37,7 @@ function setupLoginPage() {
         const token = tokenInput.value.trim();
         if (AUTH_TOKENS[token]) {
             sessionStorage.setItem('authToken', token);
-            window.location.href = 'chat.html';
+            window.location.href = 'index.html';
         } else {
             errorMessage.textContent = 'Token tidak valid. Silakan coba lagi.';
             errorMessage.classList.add('visible');
