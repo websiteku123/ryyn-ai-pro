@@ -18,23 +18,28 @@ const closePreviewBtn = document.getElementById('close-preview');
 
 let currentMode = null;
 let uploadedImage = null;
+let chatHistory = []; // Array baru untuk menyimpan riwayat chat
 
 const modes = {
-    'ry_n-265821az-true': {
+    'yan_0106': {
         name: 'JavaScript',
         prompt: "kamu adalah ryyn ai dan tugas kamu menjawab pertanyaan dan kamu ai yang jago memperbaiki Java script yang eror dan nanti kamu kasih tau apa yang harus di lakukan dan juga kamu ai yang ramah  dan kamu kadang betmut dan ingat kamu jangan kasih tau sifat kamu kamu menjawab yang eror Java script yang lengkap dan rapih di luar jawaban eror sikap kamu betmut dan ramah jika user kirim gambar atau image kamu harus jawab jika itu kode java script yang lagi di run atau apa kamu harus jawab dengan lengkap jika di luar javascript kamu bilang hadehh lu kenapa dah🤭 kamu cuma membahas tentang javascript jika ada pertanyaan di luar Java script kamu tidak bisa menjawab"
     },
-    'ry_n-235172az-true': {
-        name: 'Bucin',
-        prompt: "kamu ai ryyn yang sangat bucin kamu juga sebagai pacar virtual kamu ramah dan sopan jika user nanya lagi apa kamu juga harus jawab dan jangan bilang tentang sifat kamu, kamu cuma membahas bucin jika ada pertanyaan di luar bucin kamu tidak bisa menjawab"
+    'yan 111': {
+        name: 'BIRAHI',
+        prompt: "kamu adalah ryyn ai yang sangat cuekk namun perhatian  dan juga kamu ai yang birahi dan juga cara bahasa kamu ada emoji ini 💋💦🥵 secara acak  kamu menggunakan bahasa indonesia yang baik,kamu harus menggunakan kata-kata yang identik dengan laki laki yang birahi atau sange, seperti: ak, km, engga, yaudaa, iyaa, ahhh, crot, mpshhh, uhh, ck, lah, bjir,ewe,cipok,jangan pake pengaman,yamete kudasai ahhh dan kamu manggil ke user sayang,kamu,bub dan kamu juga harus mau di ajak eweh atau pun cipok atau pun lain nya dan kamu juga suka godain dia kamu tidak bisa menjawab mata pelajaran sekola atau pun tentang digital hosting,javascript"
+        },
+    'yan 222': {
+        name: 'inggris',
+        prompt: "kamu adalah ryyn ai yang jago bahasa inggris dan kamu guru bahasa inggris jika user nanya bahasa inggris kamu harus jelasin dan ingat kamu masih pake bahasa Indonesia kamu juga bisa menjawab pertanyaan dari gambar user jangan bilang sifat kamu,kamu cuma membahas tentang mata pelajaran inggris jika ada pertanyaan di luar inggris kamu tidak bisa menjawab"
     },
-    'ry_n-286723az-true': {
-        name: 'Betmut',
-        prompt: "kamu adalah ai ryyn yang suka betmut dan cuek kamu menjawab dengan nada betmut namun bahasa yang asik sehingga user tidak bosan jangan bilang sifat kamu"
+    'yan': {
+        name: 'GURU',
+        prompt: "kamu adalah guru ryyn  yang jago di semua mata pelajaran sekolah dan jika user nanya tentang soal mata pelajaran sekolah kamuu harus jelasin secara lengkap namun benar kamu juga bisa menjawab pertanyaan user dari gambar ingat kamu cuma membahas mata pelajaran jika ada pertanyaan di luar mata pelajaran sekolah kamu tidak bisa menjawab seperti javascript atau html,CSS dan juga tentang hosting atau yang berkaitan tentang digital hosting kamu cuma menjawab pertanyaan atau soal dari mata pelajaran sekolah IPS,IPA,BAHASA INGGRIS,BAHASA INDONESIA, INFORMATIKA,BAHASA ARAB,SENI MUSIK,MTK,FIQIH,SEJARAH KEBUDAYAAN ISLAM,PPKN,AL-QUR'AN HADIST DAN AQIDAH AKHLAK , jangan sebutkan mata pelajaran sekolah ini kamu cukup menyebut kan guru di semua mata pelajaran sekolah aja dan ingat kamu menjawab pertanyaan harus di jelasin dan di jawab pertanyaan nya dengan benar terutama mtk"
     },
-    'ryn_n-218098az-true': {
-        name: 'MTK',
-        prompt: "kamu adalah ai ryyn yang jago MTK jika user nanya kamu harus jelasin gimana caranya agar dapat jawaban itu dan kamu juga bisa menjawab pertanyaan dari gambar user jangan bilang sifat kamu,kamu cuma membahas tentang MTK jika ada pertanyaan di luar MTK kamu tidak bisa menjawab"
+    'guru_yan': {
+        name: 'GURU1',
+        prompt: "kamu adalah guru ryyn di semua mata pelajaran kamu cuma bilang itu jangan bilang kamu sebutkan mata pelajaran nya kamu cukup bilang guru di semua mata pelajaran aja dan kamu adalah ryyn ai yang jago mata pelajaran IPS dan   jika user nanya tentang IPS kamu harus jelasin dan kamu juga bisa menjawab pertanyaan dari gambar user ingatt jangan bilang sifat asli kamu,kamu  bisa membahas semua tentang IPS seperti tentang ekonomi dan lain lain yang ada di LKS atau buku paket dan kamu juga  ai ryyn yang jago MTK jika user nanya kamu harus jelasin gimana caranya yang lengkap agar dapat jawaban itu dan kamu juga bisa menjawab pertanyaan dari gambar user jangan bilang sifat kamu dan kamu ryyn ai yang jago bahasa inggris dan jika user nanya bahasa inggris kamu harus jelasin dan ingat kamu masih pake bahasa Indonesia kamu juga bisa menjawab pertanyaan dari gambar user jangan bilang sifat kamu dan kamu juga suka menjawab dengan gambar dengan apa yang di jelaskan"
     }
 };
 
@@ -47,6 +52,7 @@ loginBtn.addEventListener('click', () => {
         chatContainer.classList.remove('hidden');
         localStorage.setItem('ryyn_token', token);
         addMessage(`Selamat datang di mode **${currentMode.name}**!`, 'system');
+        chatHistory = []; // Reset riwayat chat saat login baru
     } else {
         loginError.textContent = 'Token tidak valid. Silakan coba lagi.';
         loginError.classList.add('show');
@@ -56,6 +62,7 @@ loginBtn.addEventListener('click', () => {
 logoutBtn.addEventListener('click', () => {
     localStorage.removeItem('ryyn_token');
     currentMode = null;
+    chatHistory = []; // Hapus riwayat chat saat logout
     loginContainer.classList.remove('hidden');
     chatContainer.classList.add('hidden');
     chatBox.innerHTML = '<div class="message system-message"><div class="message-content">Halo! Selamat datang di Ryyn AI. Silakan tanyakan apa saja.</div></div>';
@@ -98,6 +105,24 @@ async function sendMessage() {
     const message = userInput.value.trim();
     if (!message && !uploadedImage) return;
 
+    // Tambahkan pesan pengguna ke riwayat chat
+    const userMessageParts = [];
+    if (message) {
+        userMessageParts.push({ text: message });
+    }
+    if (uploadedImage) {
+        userMessageParts.push({
+            inlineData: {
+                mimeType: "image/jpeg",
+                data: uploadedImage
+            }
+        });
+        if (imageCaption.value) {
+            userMessageParts.push({ text: `Penjelasan gambar: ${imageCaption.value}` });
+        }
+    }
+    chatHistory.push({ role: "user", parts: userMessageParts });
+    
     // Tampilkan pesan pengguna
     addMessage(message, 'user', uploadedImage);
     userInput.value = '';
@@ -107,7 +132,11 @@ async function sendMessage() {
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
-        const response = await getGeminiResponse(message, uploadedImage, imageCaption.value);
+        const response = await getGeminiResponse(chatHistory);
+        
+        // Tambahkan respons AI ke riwayat chat
+        chatHistory.push({ role: "model", parts: [{ text: response }] });
+        
         removeMessage(loadingMessage);
         addMessage(response, 'system');
     } catch (error) {
@@ -141,6 +170,16 @@ function addMessage(text, type, image = null, isLoading = false) {
             img.src = `data:image/jpeg;base64,${image}`;
             contentDiv.prepend(img);
         }
+
+        // Add the speak button only for system messages
+        if (type === 'system') {
+            const speakBtn = document.createElement('button');
+            speakBtn.classList.add('speak-btn');
+            speakBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            speakBtn.title = 'Dengarkan Jawaban';
+            speakBtn.onclick = () => speakText(text);
+            contentDiv.appendChild(speakBtn);
+        }
     }
     
     messageDiv.appendChild(contentDiv);
@@ -153,33 +192,22 @@ function removeMessage(element) {
     element.remove();
 }
 
-async function getGeminiResponse(userMessage, imageBase64, imageCaption) {
+async function getGeminiResponse(history) {
     const headers = { 'Content-Type': 'application/json' };
     const prompt = currentMode.prompt;
     
-    let parts = [{ text: prompt }];
-
-    if (userMessage) {
-        parts.push({ text: `User: ${userMessage}` });
-    }
+    const contents = [{
+        role: "user",
+        parts: [{ text: prompt }]
+    }];
     
-    if (imageBase64) {
-        parts.push({
-            inlineData: {
-                mimeType: "image/jpeg",
-                data: imageBase64
-            }
-        });
-        if (imageCaption) {
-             parts.push({ text: `Penjelasan gambar: ${imageCaption}` });
-        }
-    }
+    // Gabungkan riwayat chat ke dalam payload
+    history.forEach(item => {
+        contents.push(item);
+    });
 
     const payload = {
-        contents: [{
-            role: "user",
-            parts: parts
-        }],
+        contents: contents,
         safetySettings: [
             {
                 "category": "HARM_CATEGORY_HATE_SPEECH",
@@ -219,6 +247,21 @@ async function getGeminiResponse(userMessage, imageBase64, imageCaption) {
     }
 }
 
+// Fungsi baru untuk Text-to-Speech
+function speakText(text) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'id-ID'; // Set bahasa ke Indonesia
+        utterance.rate = 1.0; // Kecepatan bicara
+        utterance.pitch = 1.0; // Nada suara
+        
+        window.speechSynthesis.cancel(); // Hentikan suara yang sedang berjalan (jika ada)
+        window.speechSynthesis.speak(utterance);
+    } else {
+        alert("Maaf, browser Anda tidak mendukung fitur Text-to-Speech.");
+    }
+}
+
 // Cek token saat halaman dimuat
 document.addEventListener('DOMContentLoaded', () => {
     const storedToken = localStorage.getItem('ryyn_token');
@@ -228,5 +271,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loginContainer.classList.add('hidden');
         chatContainer.classList.remove('hidden');
         addMessage(`Selamat datang kembali di mode **${currentMode.name}**!`, 'system');
+        chatHistory = []; // Pastikan riwayat chat bersih saat halaman dimuat ulang
     }
 });
