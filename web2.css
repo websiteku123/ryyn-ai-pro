@@ -149,7 +149,7 @@ p {
 #chat-container {
     display: flex;
     flex-direction: column;
-    height: 80%;
+    height: 90%;
     width: 90%;
     max-width: 700px;
     background: #1e1e1e;
@@ -204,9 +204,28 @@ p {
     text-transform: capitalize;
 }
 
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.header-actions button {
+    background: #4B0082;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.header-actions button:hover {
+    background: #555;
+}
+
 #logout-btn {
-    background: #444;
-    color: #e0e0e0;
+    background: #4B0082;
+    color: white;
     border: none;
     padding: 8px 15px;
     border-radius: 8px;
@@ -216,6 +235,17 @@ p {
 
 #logout-btn:hover {
     background: #555;
+}
+
+/* New CSS for speak button */
+.speak-btn {
+    background: #4a258a !important;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.speak-btn.active {
+    background: #6c3fbe !important;
+    box-shadow: 0 0 10px #6c3fbe;
 }
 
 .chat-box {
@@ -406,7 +436,7 @@ p {
 }
 
 #send-btn {
-    background: linear-gradient(45deg, #a67cc2, #6c3fbe);
+    background: linear-gradient(45deg, #6c5ce7, #432B7A);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -419,4 +449,4 @@ p {
 #send-btn:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(108, 63, 190, 0.4);
-}
+        }
