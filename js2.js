@@ -16,6 +16,10 @@ const imagePreview = document.getElementById('image-preview');
 const imageCaption = document.getElementById('image-caption');
 const closePreviewBtn = document.getElementById('close-preview');
 
+// New elements for the speak feature
+const speakToggleBtn = document.getElementById('speak-toggle-btn');
+let isSpeaking = false;
+
 let currentMode = null;
 let uploadedImage = null;
 let chatHistory = []; // Array baru untuk menyimpan riwayat chat
@@ -71,6 +75,26 @@ logoutBtn.addEventListener('click', () => {
     imageUpload.value = null;
     uploadedImage = null;
     uploadPreviewContainer.style.display = 'none';
+    
+    // Stop speaking if the user logs out
+    if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+    }
+});
+
+// Event listener for the new speak toggle button
+speakToggleBtn.addEventListener('click', () => {
+    isSpeaking = !isSpeaking;
+    if (isSpeaking) {
+        speakToggleBtn.classList.add('active');
+        speakToggleBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+    } else {
+        speakToggleBtn.classList.remove('active');
+        speakToggleBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        if (speechSynthesis.speaking) {
+            speechSynthesis.cancel();
+        }
+    }
 });
 
 imageUpload.addEventListener('change', (event) => {
@@ -139,6 +163,12 @@ async function sendMessage() {
         
         removeMessage(loadingMessage);
         addMessage(response, 'system');
+        
+        // Speak the response if the toggle is active
+        if (isSpeaking) {
+            speakText(response);
+        }
+        
     } catch (error) {
         console.error("Error fetching Gemini response:", error);
         removeMessage(loadingMessage);
@@ -169,16 +199,6 @@ function addMessage(text, type, image = null, isLoading = false) {
             const img = document.createElement('img');
             img.src = `data:image/jpeg;base64,${image}`;
             contentDiv.prepend(img);
-        }
-
-        // Add the speak button only for system messages
-        if (type === 'system') {
-            const speakBtn = document.createElement('button');
-            speakBtn.classList.add('speak-btn');
-            speakBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-            speakBtn.title = 'Dengarkan Jawaban';
-            speakBtn.onclick = () => speakText(text);
-            contentDiv.appendChild(speakBtn);
         }
     }
     
@@ -247,18 +267,26 @@ async function getGeminiResponse(history) {
     }
 }
 
-// Fungsi baru untuk Text-to-Speech
+// New function to speak the text
 function speakText(text) {
+    // Check if the browser supports SpeechSynthesis API
     if ('speechSynthesis' in window) {
+        // Cancel any ongoing speech
+        if (speechSynthesis.speaking) {
+            speechSynthesis.cancel();
+        }
+
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'id-ID'; // Set bahasa ke Indonesia
-        utterance.rate = 1.0; // Kecepatan bicara
-        utterance.pitch = 1.0; // Nada suara
         
-        window.speechSynthesis.cancel(); // Hentikan suara yang sedang berjalan (jika ada)
-        window.speechSynthesis.speak(utterance);
+        // Optional: Set language and voice
+        // You can get available voices using speechSynthesis.getVoices()
+        // utterance.lang = 'id-ID'; 
+        // utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google Bahasa Indonesia');
+        
+        // Speak the text
+        speechSynthesis.speak(utterance);
     } else {
-        alert("Maaf, browser Anda tidak mendukung fitur Text-to-Speech.");
+        console.warn("Browser Anda tidak mendukung Web Speech API.");
     }
 }
 
